@@ -1,2 +1,2 @@
-# urban-hack
+# UrbanHack
 Hackathon in Skoltech
