@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <color name="sport">#ef5350</color>
+    <color name="food">#009688</color>
+    <color name="teach">#e91e63</color>
+    <color name="movie">#03a9f4</color>
+    <color name="theater">#2196f3</color>
+
+    <color name="background">#eee</color>
+    <color name="green">#009688</color>
+    <color name="limegreen">#4caf50</color>
+    <color name="statusbar">#009688</color>
+    <color name="black">#000</color>
+    <color name="lightblue">#03a9f4</color>
+    <color name="blue">#2196f3</color>
+</resources>
