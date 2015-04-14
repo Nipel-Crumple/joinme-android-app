@@ -3,6 +3,7 @@ package edu.phystech.varnavski.joinme.signin;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +16,7 @@ import edu.phystech.varnavski.joinme.processors.LoginProcessor;
 /**
  * Created by Johnny D on 11.04.2015.
  */
-public class SignInActivity extends Activity{
+public class SignInActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

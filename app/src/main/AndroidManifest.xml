@@ -4,20 +4,20 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:label="@string/app_name">
 
         <activity
-            android:name=".signin.SignInActivity"
-            android:label="@string/app_name" >
+            android:name=".signin.SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SuccessLogin"
-                  android:label="Success"/>
+
+        <activity
+            android:name=".SuccessLogin" >
+        </activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

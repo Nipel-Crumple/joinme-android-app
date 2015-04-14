@@ -6,5 +6,10 @@
     <string name="action_settings">Settings</string>
     <string name="signin">Sign In</string>
     <string name="join">New to JoinMe? Register here!</string>
-    <string name="register">Register</string>
+    <string name="signup">Sign Up</string>
+    <string name="food">&#xf0f4; Food</string>
+    <string name="sport">&#xf206; Sport</string>
+    <string name="teaching">&#xf19c; Teaching</string>
+    <string name="movie">&#xf03d; Movie</string>
+    <string name="theater">&#xf0c0; Theater</string>
 </resources>
