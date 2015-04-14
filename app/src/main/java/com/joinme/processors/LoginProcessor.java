@@ -1,4 +1,4 @@
-package edu.phystech.varnavski.joinme.processors;
+package com.joinme.processors;
 
 import android.util.Log;
 
