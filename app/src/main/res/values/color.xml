@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
-    <color name="sport">#ef5350</color>
-    <color name="food">#009688</color>
-    <color name="teaching">#e91e63</color>
-    <color name="movie">#03a9f4</color>
+    <color name="sport">#FF5722</color>
+    <color name="food">#4CAF50</color>
+    <color name="teaching">#F44336</color>
+    <color name="movie">#4FC3F7</color>
     <color name="theater">#2196f3</color>
     <color name="background">#eee</color>
     <color name="statusbar">#009688</color>
