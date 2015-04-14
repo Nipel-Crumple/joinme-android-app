@@ -1,0 +1,138 @@
+<ScrollView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent">
+    <!-- A CardView that contains a TextView -->
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/food_card_view"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="90sp"
+            card_view:cardElevation="10sp"
+            card_view:cardBackgroundColor="@color/food"
+            card_view:cardCornerRadius="2dp">
+
+            <TextView
+                android:id="@+id/food_header"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:background="@color/food"
+                android:layout_gravity="top"
+                android:text="@string/food"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                android:gravity="center_vertical|center" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/sport_card_view"
+            android:layout_below="@id/food_card_view"
+            android:layout_marginTop="10sp"
+            android:layout_gravity="center"
+            android:layout_width="fill_parent"
+            android:layout_height="90sp"
+            card_view:cardElevation="15sp">
+
+            <TextView
+                android:id="@+id/sport_header"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:background="@color/sport"
+                android:layout_gravity="top"
+                android:textSize="30sp"
+                android:text="@string/sport"
+                android:textColor="@color/white"
+                android:gravity="center_vertical|center" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_below="@id/sport_card_view"
+            android:layout_marginTop="10sp"
+            android:id="@+id/teaching_card_view"
+            android:layout_gravity="center"
+            android:layout_width="fill_parent"
+            android:layout_height="90sp"
+            card_view:cardElevation="15sp">
+
+            <TextView
+                android:id="@+id/teaching_header"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:background="@color/teaching"
+                android:layout_gravity="top"
+                android:textSize="30sp"
+                android:text="@string/teaching"
+                android:textColor="@color/white"
+                android:gravity="center_vertical|center" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/movie_card_view"
+            android:layout_below="@id/teaching_card_view"
+            android:layout_marginTop="10sp"
+            android:layout_gravity="center"
+            android:layout_width="fill_parent"
+            android:layout_height="90sp"
+            card_view:cardElevation="15sp">
+
+            <TextView
+                android:id="@+id/movie_header"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:background="@color/movie"
+                android:layout_gravity="top"
+                android:textSize="30sp"
+                android:text="@string/movie"
+                android:textColor="@color/white"
+                android:gravity="center_vertical|center" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/theater_card_view"
+            android:layout_below="@id/movie_card_view"
+            android:layout_marginTop="10sp"
+            android:layout_gravity="center"
+            android:layout_width="fill_parent"
+            android:layout_height="90sp"
+            card_view:cardElevation="15sp">
+
+            <TextView
+                android:id="@+id/theater_header"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:background="@color/theater"
+                android:layout_gravity="top"
+                android:textSize="30sp"
+                android:text="@string/theater"
+                android:textColor="@color/white"
+                android:gravity="center_vertical|center" />
+        </android.support.v7.widget.CardView>
+    </RelativeLayout>
+</ScrollView>
+
+    <!--<TextView
+        android:id="@+id/theater_info_text"
+        android:layout_toStartOf="@id/food_header"
+        android:layout_width="match_parent"
+        android:layout_height="100sp"
+        android:layout_gravity="bottom"
+        android:background="@color/white"/>
+    <TextView
+        android:id="@+id/theater_more_details"
+        android:layout_toStartOf="@id/info_text"
+        android:layout_width="match_parent"
+        android:layout_alignBottom="@id/info_text"
+        android:layout_height="30sp"
+        android:layout_gravity="bottom"
+        android:background="@color/grey"
+        />-->
