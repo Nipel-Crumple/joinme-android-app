@@ -1,4 +1,4 @@
-package edu.phystech.varnavski.joinme.signin;
+package com.joinme.signin;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,9 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import edu.phystech.varnavski.joinme.R;
-import edu.phystech.varnavski.joinme.SuccessLogin;
-import edu.phystech.varnavski.joinme.processors.LoginProcessor;
+import com.joinme.R;
+import com.joinme.processors.LoginProcessor;
+import com.joinme.SuccessLogin;
 
 /**
  * Created by Johnny D on 11.04.2015.
