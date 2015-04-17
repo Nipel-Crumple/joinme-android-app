@@ -31,21 +31,26 @@
         android:singleLine="true"
         android:inputType="textPassword"/>
 
-    <Button
-        android:id="@+id/btnLogin"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/limegreen"
-        android:layout_marginTop="10sp"
-        android:text="@string/signin" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="66dp">
 
-    <Button
-        android:id="@+id/btnRegister"
-        android:layout_width="fill_parent"
-        android:background="@color/lightblue"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10sp"
-        android:text="@string/signup" />
+        <com.gc.materialdesign.views.ButtonFlat
+            android:id="@+id/btnLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/material_blue_grey_800"
+            android:text="@string/signin" />
+
+        <com.gc.materialdesign.views.ButtonFlat
+            android:id="@+id/btnRegister"
+            android:layout_toEndOf="@id/btnLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/material_blue_grey_800"
+            android:text="@string/signup" />
+
+    </RelativeLayout>
 
 </LinearLayout>
     <!-- Login Form Ends -->

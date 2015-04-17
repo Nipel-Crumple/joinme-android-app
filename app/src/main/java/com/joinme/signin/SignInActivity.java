@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.gc.materialdesign.views.ButtonFlat;
 import com.joinme.Category;
 import com.joinme.R;
 import com.joinme.processors.LoginProcessor;
@@ -22,8 +23,8 @@ public class SignInActivity extends Activity {
         //set view login.xml
         setContentView(R.layout.login);
 
-        final Button login = (Button) findViewById(R.id.btnLogin);
-        Button register = (Button) findViewById(R.id.btnRegister);
+        final ButtonFlat login = (ButtonFlat) findViewById(R.id.btnLogin);
+        final ButtonFlat register = (ButtonFlat) findViewById(R.id.btnRegister);
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
