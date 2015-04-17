@@ -3,15 +3,14 @@ package com.joinme.signin;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.joinme.Category;
 import com.joinme.R;
 import com.joinme.processors.LoginProcessor;
-import com.joinme.SuccessLogin;
 
 /**
  * Created by Johnny D on 11.04.2015.
@@ -44,7 +43,7 @@ public class SignInActivity extends Activity {
 
                 if (serverResponse != null) {
                     Log.d("Successful register ", email);
-                    Intent i = new Intent(getApplicationContext(), SuccessLogin.class);
+                    Intent i = new Intent(getApplicationContext(), Category.class);
                     startActivity(i);
                 } else {
                     Log.d("Cannot login: ", email);
@@ -71,7 +70,7 @@ public class SignInActivity extends Activity {
 
                 if (serverResponse != null) {
                     Log.d("Successful login ", email);
-                    Intent i = new Intent(getApplicationContext(), SuccessLogin.class);
+                    Intent i = new Intent(getApplicationContext(), Category.class);
                     startActivity(i);
                 } else {
                     Log.d("Cannot login: ", email);

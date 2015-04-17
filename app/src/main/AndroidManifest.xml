@@ -2,11 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.joinme" >
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:theme="@style/AppTheme"
         android:label="@string/app_name">
-
         <activity
             android:name=".signin.SignInActivity">
             <intent-filter>
@@ -16,9 +17,9 @@
         </activity>
 
         <activity
-            android:name=".SuccessLogin"
-            >
+            android:label="@string/choosecategory"
+            android:name=".Category"
+            android:theme="@style/AppTheme.Category">
         </activity>
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

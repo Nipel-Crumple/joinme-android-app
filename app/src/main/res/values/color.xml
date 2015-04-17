@@ -8,11 +8,13 @@
     <color name="background">#eee</color>
     <color name="statusbar">#009688</color>
 
+    <color name="subtitle">#A3819184</color>
     <color name="grey">#eee</color>
     <color name="green">#009688</color>
     <color name="limegreen">#4caf50</color>
     <color name="white">#fffefff5</color>
     <color name="black">#000</color>
     <color name="lightblue">#03a9f4</color>
+    <color name="light">#3817BDF4</color>
     <color name="blue">#2196f3</color>
 </resources>
