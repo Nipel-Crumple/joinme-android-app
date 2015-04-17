@@ -14,5 +14,9 @@
     <string name="theater">&#xf0c0; Theater</string>
     <string name="moredetails">More details...</string>
     <string name="choosecategory">Choose category</string>
-    <string name="titlehere">Title here</string>
+    <string name="event">Event</string>
+    <string name="category">Category</string>
+    <string name="descriptiontitle">Description</string>
+    <string name="memberstitle">Members</string>
+    <string name="creator">Creator</string>
 </resources>
