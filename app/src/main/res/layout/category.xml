@@ -4,21 +4,23 @@
     android:layout_width="fill_parent">
     <!-- A CardView that contains a TextView -->
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.CardView
             android:id="@+id/food_card_view"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginRight="@dimen/margin_medium"
             android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="90sp"
-            card_view:cardElevation="10sp"
+            card_view:cardElevation="@dimen/cardview_default_elevation"
             card_view:cardBackgroundColor="@color/food"
             card_view:cardCornerRadius="2dp">
 
             <TextView
                 android:id="@+id/food_header"
-                android:fontFamily="Roboto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
@@ -33,15 +35,16 @@
         <android.support.v7.widget.CardView
             android:id="@+id/sport_card_view"
             android:layout_below="@id/food_card_view"
-            android:layout_marginTop="10sp"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginRight="@dimen/margin_medium"
             android:layout_gravity="center"
             android:layout_width="fill_parent"
             android:layout_height="90sp"
-            card_view:cardElevation="15sp">
+            card_view:cardElevation="@dimen/cardview_default_elevation">
 
             <TextView
                 android:id="@+id/sport_header"
-                android:fontFamily="Roboto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
@@ -55,16 +58,17 @@
 
         <android.support.v7.widget.CardView
             android:layout_below="@id/sport_card_view"
-            android:layout_marginTop="10sp"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginRight="@dimen/margin_medium"
             android:id="@+id/teaching_card_view"
             android:layout_gravity="center"
             android:layout_width="fill_parent"
             android:layout_height="90sp"
-            card_view:cardElevation="15sp">
+            card_view:cardElevation="@dimen/cardview_default_elevation">
 
             <TextView
                 android:id="@+id/teaching_header"
-                android:fontFamily="Roboto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
@@ -80,15 +84,16 @@
         <android.support.v7.widget.CardView
             android:id="@+id/movie_card_view"
             android:layout_below="@id/teaching_card_view"
-            android:layout_marginTop="10sp"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginRight="@dimen/margin_medium"
             android:layout_gravity="center"
             android:layout_width="fill_parent"
             android:layout_height="90sp"
-            card_view:cardElevation="15sp">
+            card_view:cardElevation="@dimen/cardview_default_elevation">
 
             <TextView
                 android:id="@+id/movie_header"
-                android:fontFamily="Roboto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
@@ -103,15 +108,17 @@
         <android.support.v7.widget.CardView
             android:id="@+id/theater_card_view"
             android:layout_below="@id/movie_card_view"
-            android:layout_marginTop="10sp"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginRight="@dimen/margin_medium"
             android:layout_gravity="center"
             android:layout_width="fill_parent"
             android:layout_height="90sp"
-            card_view:cardElevation="15sp">
+            card_view:cardElevation="@dimen/cardview_default_elevation">
 
             <TextView
                 android:id="@+id/theater_header"
-                android:fontFamily="Roboto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
