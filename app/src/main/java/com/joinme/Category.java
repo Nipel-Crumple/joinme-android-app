@@ -2,7 +2,13 @@ package com.joinme;
 
 import android.app.Activity;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
@@ -10,25 +16,27 @@ import android.widget.TextView;
  */
 public class Category extends Activity{
 
+    private String[] mCategoryTitles;
+    private int[] mCategoryBackgrounds;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.category);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Typeface font = Typeface.createFromAsset( getAssets(), "fontawesome-webfont.ttf" );
-                TextView food = (TextView)findViewById(R.id.food_header);
-                TextView sport = (TextView)findViewById(R.id.sport_header);
-                TextView teaching = (TextView)findViewById(R.id.teaching_header);
-                TextView movie = (TextView)findViewById(R.id.movie_header);
-                TextView theater = (TextView)findViewById(R.id.theater_header);
-                food.setTypeface(font);
-                sport.setTypeface(font);
-                teaching.setTypeface(font);
-                movie.setTypeface(font);
-                theater.setTypeface(font);
-            }
-        }).start();
+
+        mCategoryTitles = getResources().getStringArray(R.array.category_array);
+        mCategoryBackgrounds = getResources().getIntArray(R.array.category_color);
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.categories);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        Typeface font = Typeface.createFromAsset(getAssets(), "fontawesome-webfont.ttf");
+        for (int i = 0; i < mCategoryTitles.length; i++) {
+            CardView view = (CardView) inflater.inflate(R.layout.category_list_item,
+                    linearLayout, false);
+            TextView text = (TextView) view.findViewById(R.id.category_title);
+            text.setText(mCategoryTitles[i]);
+            text.setTypeface(font);
+            view.setCardBackgroundColor(mCategoryBackgrounds[i]);
+            linearLayout.addView(view);
+        }
     }
 }
