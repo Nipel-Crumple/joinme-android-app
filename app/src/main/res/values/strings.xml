@@ -7,10 +7,23 @@
     <string name="signin">Sign In</string>
     <string name="join">New to JoinMe? Register here!</string>
     <string name="signup">Sign Up</string>
+    <string-array name="category_array">
+        <item>&#xf0f4; Food</item>
+        <item>&#xf206; Sport</item>
+        <item>&#xf19c; Teaching</item>
+        <item>&#xf03d; Movie</item>
+        <item>&#xf0c0; Theater</item>
+    </string-array>
     <string name="food">&#xf0f4; Food</string>
     <string name="sport">&#xf206; Sport</string>
     <string name="teaching">&#xf19c; Teaching</string>
     <string name="movie">&#xf03d; Movie</string>
     <string name="theater">&#xf0c0; Theater</string>
     <string name="moredetails">More details...</string>
+    <string name="choosecategory">Choose category</string>
+    <string name="event">Event</string>
+    <string name="category">Category</string>
+    <string name="descriptiontitle">Description</string>
+    <string name="memberstitle">Members</string>
+    <string name="creator">Creator</string>
 </resources>
