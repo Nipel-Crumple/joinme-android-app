@@ -3,6 +3,7 @@ package com.joinme.signin;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +25,13 @@ public class SignInActivity extends Activity {
         super.onCreate(savedInstanceState);
         //set view login.xml
         setContentView(R.layout.login);
+        SharedPreferences sharedPreferences = getSharedPreferences("JoinMe", Activity.MODE_PRIVATE);
+        String token = sharedPreferences.getString("JoinMeToken", "");
+
+        if (token.equals("")) {
+            Intent i = new Intent(getApplicationContext(), Category.class);
+            startActivity(i);
+        }
 
         final ButtonFlat login = (ButtonFlat) findViewById(R.id.btnLogin);
         final ButtonFlat register = (ButtonFlat) findViewById(R.id.btnRegister);
@@ -79,6 +87,9 @@ public class SignInActivity extends Activity {
 
                 if (!isError) {
                     Log.d("Successful register ", email);
+                    SharedPreferences sharedPreferences = getSharedPreferences("JoinMe", Activity.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("JoinMeToken", serverResponse);
                     Intent i = new Intent(getApplicationContext(), Category.class);
                     startActivity(i);
                 } else {
