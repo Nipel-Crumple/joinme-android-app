@@ -19,10 +19,17 @@
 
         <activity
             android:label="@string/choosecategory"
-            android:name=".Category"
+            android:name=".categories.Category"
             android:theme="@style/AppTheme.Category">
         </activity>
-        TODO remake it
+
+        <activity
+            android:label="@string/events"
+            android:name=".events.Events"
+            android:theme="@style/AppTheme.Category">
+        </activity>
+
+
         <service android:name=".signin.AuthenticatorService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
@@ -30,5 +37,6 @@
             <meta-data android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator" />
         </service>
+
     </application>
 </manifest>

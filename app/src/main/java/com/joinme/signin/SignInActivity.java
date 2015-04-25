@@ -5,11 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.gc.materialdesign.views.ButtonFlat;
-import com.joinme.Category;
+import com.joinme.categories.Category;
 import com.joinme.R;
 import com.joinme.processors.LoginProcessor;
 

@@ -1,20 +1,19 @@
-package com.joinme;
+package com.joinme.categories;
 
 import android.app.Activity;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.joinme.R;
 
 /**
  * Created by Johnny D on 11.04.2015.
  */
-public class Category extends Activity{
+public class Category extends Activity {
 
     private String[] mCategoryTitles;
     private int[] mCategoryBackgrounds;
@@ -23,7 +22,6 @@ public class Category extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.category);
-
         mCategoryTitles = getResources().getStringArray(R.array.category_array);
         mCategoryBackgrounds = getResources().getIntArray(R.array.category_color);
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.categories);
