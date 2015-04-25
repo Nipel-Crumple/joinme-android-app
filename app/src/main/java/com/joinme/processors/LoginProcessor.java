@@ -16,15 +16,11 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONStringer;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.jar.Attributes;
 
 /**
  * Created by Johnny D on 11.04.2015.
@@ -33,6 +29,16 @@ public class LoginProcessor implements Runnable {
 
     private String token;
     private String serverMessage = "";
+    private boolean isError;
+
+    public boolean isError() {
+        return isError;
+    }
+
+    public void setError(boolean isError) {
+        this.isError = isError;
+    }
+
     private String email;
     private String password;
 
@@ -41,6 +47,7 @@ public class LoginProcessor implements Runnable {
     }
 
     private Type type;
+
     public LoginProcessor(String email, String password, Type type) {
         this.email = email;
         this.password = password;
@@ -50,25 +57,28 @@ public class LoginProcessor implements Runnable {
     @Override
     public void run() {
 
-        //getting token in not the main thread
-//        try {
-//            token = getCSRFToken();
-//            Log.d("token= ", "" + token);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
         HttpClient client = new DefaultHttpClient();
 
         try {
             String url = null;
+            setError(false);
 
-            switch(type) {
+            switch (type) {
                 case LOGIN:
                     url = buildLoginUrl();
                     HttpGet httpGet = new HttpGet(url);
                     ResponseHandler<String> responseHandler = new BasicResponseHandler();
                     Log.d("GET to signin", "" + url);
-                    serverMessage = client.execute(httpGet, responseHandler);
+                    String responseString = client.execute(httpGet, responseHandler);
+                    JSONObject dataJSON = new JSONObject(responseString);
+                    String error = dataJSON.getString("error");
+
+                    if (error == null) {
+                        serverMessage = dataJSON.getString("token");
+                    } else {
+                        serverMessage = error;
+                        setError(true);
+                    }
                     break;
                 case REGISTER:
                     url = buildRegisterUrl();
@@ -79,13 +89,24 @@ public class LoginProcessor implements Runnable {
                     params.add(new BasicNameValuePair("password", password));
                     httpPost.setEntity(new UrlEncodedFormEntity(params));
                     HttpResponse response = client.execute(httpPost);
-                    serverMessage = EntityUtils.toString(response.getEntity());
+                    responseString = EntityUtils.toString(response.getEntity());
+                    dataJSON = new JSONObject(responseString);
+                    error = dataJSON.getString("error");
+
+                    if (error == null) {
+                        serverMessage = dataJSON.getString("token");
+                    } else {
+                        setError(true);
+                        serverMessage = error;
+                    }
                     break;
             }
             Log.d("Server response:", "msg= " + serverMessage);
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
@@ -108,7 +129,7 @@ public class LoginProcessor implements Runnable {
     }
 
 
-    private String getCSRFToken() throws IOException {
+/*    private String getCSRFToken() throws IOException {
         String urlString = "http://master-igor.com/joinme/api/csrf/";
         Log.d("String to send:", urlString);
 
@@ -125,7 +146,7 @@ public class LoginProcessor implements Runnable {
             e.printStackTrace();
         }
         return token;
-    }
+    }*/
 
     public String getServerMessage() {
         return serverMessage;
