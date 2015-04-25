@@ -1,5 +1,9 @@
 package com.joinme.events;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Parcel;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +13,15 @@ import android.widget.TextView;
 import com.gc.materialdesign.views.ButtonFlat;
 import com.joinme.R;
 
+import android.net.Uri;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder> {
 
@@ -29,6 +41,16 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         EventInfo eventInfo = eventList.get(i);
         eventViewHolder.vTitle.setText(eventInfo.title);
         eventViewHolder.vCreator.setText(eventInfo.creator);
+        URL url = null;
+        try {
+            url = new URL(eventInfo.imageUrl);
+            Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+            eventViewHolder.vCreatorAvatar.setImageBitmap(bmp);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         eventViewHolder.vDescriptionTitle.setText(eventInfo.descriptionTitle);
         eventViewHolder.vDescription.setText(eventInfo.description);
         eventViewHolder.vMembersTitle.setText(eventInfo.membersTitle);
@@ -48,6 +70,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
     public class EventViewHolder extends RecyclerView.ViewHolder {
         protected TextView vTitle;
+        protected CircleImageView vCreatorAvatar;
         protected TextView vCreator;
         protected TextView vDescriptionTitle;
         protected TextView vDescription;
@@ -59,6 +82,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         public EventViewHolder(View v) {
             super(v);
             vTitle =  (TextView) v.findViewById(R.id.title);
+            vCreatorAvatar = (CircleImageView) v.findViewById(R.id.avatar);
             vCreator = (TextView) v.findViewById(R.id.creator);
             vDescriptionTitle = (TextView)  v.findViewById(R.id.descriptiontitle);
             vDescription = (TextView) v.findViewById(R.id.description);
