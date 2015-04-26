@@ -24,6 +24,7 @@ public class SignInActivity extends Activity {
         super.onCreate(savedInstanceState);
         //set view login.xml
         setContentView(R.layout.login);
+
         SharedPreferences sharedPreferences = getSharedPreferences("JoinMe", Activity.MODE_PRIVATE);
         String token = sharedPreferences.getString("JoinMeToken", "");
 
@@ -58,7 +59,7 @@ public class SignInActivity extends Activity {
                     Intent i = new Intent(getApplicationContext(), Category.class);
                     startActivity(i);
                 } else {
-                    Log.d("Cannot login: ", email);
+                    Log.d("Cannot register: ", email);
                     Context context = getApplicationContext();
                     Toast toast = Toast.makeText(context, serverResponse, Toast.LENGTH_SHORT);
                     toast.show();
@@ -85,10 +86,12 @@ public class SignInActivity extends Activity {
                 }
 
                 if (!isError) {
-                    Log.d("Successful register ", email);
+                    Log.d("Successful login ", email);
                     SharedPreferences sharedPreferences = getSharedPreferences("JoinMe", Activity.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("JoinMeToken", serverResponse);
+                    editor.putString("JoinMeUserEmail", email);
+                    editor.apply();
                     Intent i = new Intent(getApplicationContext(), Category.class);
                     startActivity(i);
                 } else {

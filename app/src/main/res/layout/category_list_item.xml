@@ -18,5 +18,5 @@
         android:fontFamily="Roboto"
         android:textColor="@color/white"
         android:textSize="30sp"
-        android:gravity="center_vertical|center" />
+        android:gravity="center_vertical|center"/>
 </android.support.v7.widget.CardView>

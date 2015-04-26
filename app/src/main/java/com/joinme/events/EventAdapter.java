@@ -1,5 +1,6 @@
 package com.joinme.events;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Parcel;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.gc.materialdesign.views.ButtonFlat;
 import com.joinme.R;
+import com.squareup.picasso.Picasso;
 
 import android.net.Uri;
 
@@ -26,9 +28,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder> {
 
     private List<EventInfo> eventList;
+    private  EventViewHolder eventViewHolder;
+    private Context context;
 
-    public EventAdapter(List<EventInfo> eventList) {
+    public EventAdapter(List<EventInfo> eventList, Context context) {
         this.eventList = eventList;
+        this.context = context;
     }
 
     @Override
@@ -41,16 +46,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         EventInfo eventInfo = eventList.get(i);
         eventViewHolder.vTitle.setText(eventInfo.title);
         eventViewHolder.vCreator.setText(eventInfo.creator);
-        URL url = null;
-        try {
-            url = new URL(eventInfo.imageUrl);
-            Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-            eventViewHolder.vCreatorAvatar.setImageBitmap(bmp);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Picasso.with(context).load(eventInfo.imageUrl).into(eventViewHolder.vCreatorAvatar);
         eventViewHolder.vDescriptionTitle.setText(eventInfo.descriptionTitle);
         eventViewHolder.vDescription.setText(eventInfo.description);
         eventViewHolder.vMembersTitle.setText(eventInfo.membersTitle);
@@ -65,7 +61,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                 from(viewGroup.getContext()).
                 inflate(R.layout.event_card, viewGroup, false);
 
-        return new EventViewHolder(itemView);
+        eventViewHolder = new EventViewHolder(itemView);
+        return eventViewHolder;
+    }
+
+    public EventViewHolder getEventViewHolder() {
+        return eventViewHolder;
     }
 
     public class EventViewHolder extends RecyclerView.ViewHolder {
@@ -90,6 +91,14 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             vMembersList = (TextView) v.findViewById(R.id.members);
             vActionOne = (ButtonFlat) v.findViewById(R.id.action1);
             vActionTwo = (ButtonFlat) v.findViewById(R.id.action2);
+        }
+
+        public ButtonFlat getvActionOne() {
+            return vActionOne;
+        }
+
+        public ButtonFlat getvActionTwo() {
+            return vActionTwo;
         }
     }
 }

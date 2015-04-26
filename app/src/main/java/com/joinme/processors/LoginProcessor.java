@@ -72,12 +72,13 @@ public class LoginProcessor implements Runnable {
                     Log.d("GET to signin", "" + url);
                     String responseString = client.execute(httpGet, responseHandler);
                     JSONObject dataJSON = new JSONObject(responseString);
-                    String error = dataJSON.getString("error");
-
+                    JSONObject error = dataJSON.optJSONObject("error");
+//
                     if (error == null) {
                         serverMessage = dataJSON.getString("token");
+                        Log.d("Token in Login ", serverMessage);
                     } else {
-                        serverMessage = error;
+                        serverMessage = null;
                         setError(true);
                     }
                     break;
@@ -92,13 +93,13 @@ public class LoginProcessor implements Runnable {
                     HttpResponse response = client.execute(httpPost);
                     responseString = EntityUtils.toString(response.getEntity());
                     dataJSON = new JSONObject(responseString);
-                    error = dataJSON.getString("error");
+                    error = dataJSON.optJSONObject("error");
 
                     if (error == null) {
                         serverMessage = dataJSON.getString("token");
                     } else {
                         setError(true);
-                        serverMessage = error;
+                        serverMessage = null;
                     }
                     break;
             }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
 import com.joinme.R;
 
@@ -20,14 +21,18 @@ import java.util.List;
  * Created by Johnny D on 16.04.2015.
  */
 public class Events extends Activity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_list);
+
         SharedPreferences sharedPreferences = getSharedPreferences("JoinMe", Activity.MODE_PRIVATE);
-        String token = "afasfvxdf123df";
-//                sharedPreferences.getString("JoinMeToken", "");
-//        Log.d("JoinMeToken", token);
+        final String token = sharedPreferences.getString("JoinMeToken", "");
+        final String userEmail = sharedPreferences.getString("JoinMeUserEmail", "");
+
+        Log.d("JoinMeUserEmail", userEmail);
+        Log.d("JoinMeToken", token);
 
         Bundle bundle = getIntent().getExtras();
         EventProcessor proc = new EventProcessor(bundle, token);
@@ -47,16 +52,33 @@ public class Events extends Activity {
             e.printStackTrace();
         }
         JSONObject jsonResponse = proc.getJsonResponse();
-        List<EventInfo> list = createList(jsonResponse);
+        List<EventInfo> list = createList(jsonResponse, userEmail);
 
-        EventAdapter eventAdapter = new EventAdapter(list);
+        final EventAdapter eventAdapter = new EventAdapter(list, getApplicationContext());
+//        eventAdapter.getEventViewHolder().getvActionTwo().setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String action = eventAdapter.getEventViewHolder().getvActionTwo().getText();
+//                EventProcessor eventProcessor = new EventProcessor(token, action);
+//                Thread thr = new Thread(eventProcessor);
+//                thr.start();
+//                try {
+//                    thr.join();
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//
+//
+//            }
+//        });
         eventList.setAdapter(eventAdapter);
     }
 
 
-    private List<EventInfo> createList(JSONObject json) {
+    private List<EventInfo> createList(JSONObject json, String currentUserEmail) {
 
         List<EventInfo> result = new ArrayList<EventInfo>();
+        List<String> members = new ArrayList();
         try {
             JSONArray array = json.getJSONArray("events");
             for (int i = 0; i < array.length(); i++) {
@@ -66,8 +88,11 @@ public class Events extends Activity {
                 eventInfo.title = object.getString("title");
                 Log.d("Title",eventInfo.title);
 
-                eventInfo.creator = object.getString("author");
+                eventInfo.creator = object.getJSONObject("author").getString("username");
                 Log.d("Author",eventInfo.creator);
+
+                eventInfo.imageUrl = object.getJSONObject("author").getString("photo");
+                Log.d("Photo:", eventInfo.imageUrl);
 
                 eventInfo.descriptionTitle = "Description";
                 Log.d("Description title", eventInfo.descriptionTitle);
@@ -75,16 +100,14 @@ public class Events extends Activity {
                 eventInfo.description = object.getString("description");
                 Log.d("Description", eventInfo.description);
 
-
-                List<String> members = new ArrayList();
                 JSONArray memberArrayJson = object.getJSONArray("members");
 
-
-                eventInfo.imageUrl = memberArrayJson.getJSONObject(0).getString("photo");
+//                eventInfo.imageUrl = memberArrayJson.getJSONObject(0).getString("photo");
                 for (int j = 0; j < memberArrayJson.length(); j++) {
                     members.add(memberArrayJson.getJSONObject(0).getString("username"));
                     Log.d("member #" + j, members.get(j));
                 }
+//                members.add(eventInfo.creator);
 
                 StringBuffer stringBuffer = new StringBuffer();
                 for (String temp : members) {
@@ -96,6 +119,13 @@ public class Events extends Activity {
                 eventInfo.members = stringBuffer.toString();
                 eventInfo.action_one = "MORE";
                 eventInfo.action_two = "JOIN";
+
+//                if (members.contains(currentUserEmail)) {
+//                    eventInfo.action_two = "LEAVE";
+//                } else {
+//                    eventInfo.action_two = "JOIN";
+//                }
+
                 result.add(eventInfo);
             }
         } catch (JSONException e) {

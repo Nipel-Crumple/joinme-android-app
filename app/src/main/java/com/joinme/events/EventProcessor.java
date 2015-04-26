@@ -26,6 +26,7 @@ public class EventProcessor implements Runnable {
     private String category;
     private String token;
     private String serverMessage;
+    private String action;
     private JSONObject jsonResponse;
 
     public EventProcessor(Bundle bundle, String token) {
@@ -33,17 +34,40 @@ public class EventProcessor implements Runnable {
         this.token = token;
     }
 
-    public String buildUrl() {
+    public EventProcessor(String token, String action) {
+        this.action = action;
+        this.token = token;
+    }
+
+    public String buildGetCardsURL() {
         String url = "http://master-igor.com/joinme/api/events/?token=" + token
                 + "&category=" + category;
         Log.d("Request url: ", url + "");
         return url;
     }
 
+    public String buildJoinURL() {
+        return "http://master-igor.com/joinme/api/events/";
+    }
+
+    public String buildLeaveURL() {
+        return "http://master-igor.com/joinme/api/events/";
+    }
+
     @Override
     public void run() {
         HttpClient client = new DefaultHttpClient();
-        String url = buildUrl();
+        String url;
+        if (this.category == null) {
+            if (this.action.equals("JOIN")) {
+                url = buildJoinURL();
+            }
+            else {
+                url = buildLeaveURL();
+            }
+        } else {
+            url = buildGetCardsURL();
+        }
         HttpGet httpGet = new HttpGet(url);
         ResponseHandler<String> responseHandler = new BasicResponseHandler();
         String responseString = null;
@@ -53,12 +77,12 @@ public class EventProcessor implements Runnable {
             JSONObject dataJSON = new JSONObject(responseString);
             this.jsonResponse = dataJSON;
             Log.d("json Response=", getJsonResponse().toString());
-            String error = dataJSON.getString("error");
+            JSONObject error = dataJSON.optJSONObject("error");
             if (error == null) {
-                serverMessage = dataJSON.getString("token");
+                serverMessage = dataJSON.toString();
                 Log.d("Server response: ", serverMessage);
             } else {
-                serverMessage = error;
+                serverMessage = error.getString("error");
                 Log.d("Error: ", serverMessage);
             }
         } catch (IOException | JSONException e) {

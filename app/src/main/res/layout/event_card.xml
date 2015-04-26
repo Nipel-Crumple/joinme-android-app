@@ -79,7 +79,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="28dp"
-                android:textColor="@color/black"
+                android:textColor="@color/description"
                 android:text="Some description"/>
 
             <TextView
@@ -101,7 +101,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="warlen94@mail.ru\nsigorilla@mail.com"
-                android:textColor="@color/black"/>
+                android:textColor="@color/description"/>
         </RelativeLayout>
 
         <RelativeLayout
