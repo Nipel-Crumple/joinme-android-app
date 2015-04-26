@@ -26,5 +26,7 @@
     <string name="descriptiontitle">Description</string>
     <string name="memberstitle">Members</string>
     <string name="creator">Creator</string>
-    <string name="events">events</string>
+    <string name="events">Events</string>
+    <string name="refresh_started">Refreshing</string>
+    <string name="refresh_finished">Finished</string>
 </resources>

@@ -59,7 +59,8 @@ public class EventProcessor implements Runnable {
     }
 
     public String buildDeleteURL() {
-        return "http://master-igor.com/joinme/api/events/";
+        return "http://master-igor.com/joinme/api/event/delete/?token=" + token +
+                "&id=" + eventId;
     }
     @Override
     public void run() {
@@ -86,14 +87,14 @@ public class EventProcessor implements Runnable {
         String responseString = null;
         try {
             responseString = client.execute(httpGet, responseHandler);
-            Log.d("Response: ", responseString);
+//            Log.d("Response: ", responseString);
             JSONObject dataJSON = new JSONObject(responseString);
             this.jsonResponse = dataJSON;
-            Log.d("json Response=", getJsonResponse().toString());
+//            Log.d("json Response=", getJsonResponse().toString());
             JSONObject error = dataJSON.optJSONObject("error");
             if (error == null) {
                 serverMessage = dataJSON.toString();
-                Log.d("Server response: ", serverMessage);
+//                Log.d("Server response: ", serverMessage);
             } else {
                 serverMessage = error.getString("error");
                 Log.d("Error: ", serverMessage);
