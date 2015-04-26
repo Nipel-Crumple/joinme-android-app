@@ -13,4 +13,5 @@ public class EventInfo {
     protected String action_two;
     protected String members;
     protected String imageUrl;
+    protected String eventId;
 }

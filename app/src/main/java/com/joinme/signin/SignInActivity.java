@@ -28,7 +28,7 @@ public class SignInActivity extends Activity {
         SharedPreferences sharedPreferences = getSharedPreferences("JoinMe", Activity.MODE_PRIVATE);
         String token = sharedPreferences.getString("JoinMeToken", "");
 
-        if (token.equals("")) {
+        if (!token.equals("")) {
             Intent i = new Intent(getApplicationContext(), Category.class);
             startActivity(i);
         }

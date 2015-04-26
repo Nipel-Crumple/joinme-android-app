@@ -23,6 +23,10 @@ public class NotifierProcessor implements Runnable {
     private String organizerEvent;
     private String token;
 
+    public NotifierProcessor(String token) {
+        this.token = token;
+    }
+
     public String getOrganizerEvent() {
         return organizerEvent;
     }
@@ -45,10 +49,6 @@ public class NotifierProcessor implements Runnable {
 
     public void setEvents(String[] events) {
         this.events = events;
-    }
-
-     public NotifierProcessor(String token) {
-        this.token = token;
     }
 
     public String buildGetNotifierUrl() {
@@ -77,11 +77,16 @@ public class NotifierProcessor implements Runnable {
                 Log.d("Error to get notify", error.toString());
             } else {
                 subscriptionAmount = response.getString("count");
+                Log.d("subscriptionAmount", subscriptionAmount);
                 organizerEvent = response.getString("count_author");
+                Log.d("organizerEvent", organizerEvent);
                 JSONArray array = response.getJSONArray("categories");
+                Log.d("ARRAY size", String.valueOf(array.length()));
                 String[] tempCategoryArray = new String[array.length()];
+
                 for (int i = 0; i < array.length(); i++) {
                     tempCategoryArray[i] = array.getString(i);
+                    /*Log.d("ARRAY", tempCategoryArray[i]);*/
                 }
                 events = tempCategoryArray;
             }

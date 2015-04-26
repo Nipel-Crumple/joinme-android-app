@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -27,22 +28,13 @@ public class Category extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        String[] events;
-        String subscriptionAmount;
-        String organizerEvent;
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.category);
         mCategoryTitles = getResources().getStringArray(R.array.category_array);
         mCategoryBackgrounds = getResources().getIntArray(R.array.category_color);
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.categories);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("JoinMe", Activity.MODE_PRIVATE);
-        final String token = sharedPreferences.getString("JoinMeToken", "");
-        NotifierProcessor notifierProcessor = new NotifierProcessor(token);
-        Thread thread = new Thread(notifierProcessor);
-        thread.start();
+
         LayoutInflater inflater = LayoutInflater.from(this);
         Typeface font = Typeface.createFromAsset(getAssets(), "fontawesome-webfont.ttf");
         for (int i = 0; i < mCategoryTitles.length; i++) {
@@ -89,19 +81,39 @@ public class Category extends Activity {
             });
             view.setCardBackgroundColor(mCategoryBackgrounds[i]);
             linearLayout.addView(view);
-            try {
-                thread.join();
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            events = notifierProcessor.getEvents();
-            subscriptionAmount = notifierProcessor.getSubscriptionAmount();
-            organizerEvent = notifierProcessor.getOrganizerEvent();
-            String forToast = buildStringForToast(events, subscriptionAmount, organizerEvent);
-            Context context = getApplicationContext();
-            Toast toast = Toast.makeText(context, forToast, Toast.LENGTH_LONG);
         }
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        String[] events;
+        String subscriptionAmount;
+        String organizerEvent;
+
+        SharedPreferences sharedPreferences = getSharedPreferences("JoinMe", Activity.MODE_PRIVATE);
+        final String token = sharedPreferences.getString("JoinMeToken", "");
+        Log.d("Token in category", token);
+        NotifierProcessor notifierProcessor = new NotifierProcessor(token);
+        Thread thread = new Thread(notifierProcessor);
+        thread.start();
+
+        try {
+            thread.join();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        events = notifierProcessor.getEvents();
+        subscriptionAmount = notifierProcessor.getSubscriptionAmount();
+        organizerEvent = notifierProcessor.getOrganizerEvent();
+
+        String forToast = buildStringForToast(events, subscriptionAmount, organizerEvent);
+        Context context = getApplicationContext();
+        Log.d("For toast", forToast);
+        Toast toast = Toast.makeText(context, forToast, Toast.LENGTH_LONG);
+        toast.show();
     }
 
     private String buildStringForToast(String[] events, String subscriptionAmount, String organizerEvent) {
@@ -117,4 +129,9 @@ public class Category extends Activity {
         return "You subscribed to " + subscriptionAmount + " and organized " + organizerEvent + " in "
                 + allEvents.toString() + " categories";
     }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
 }
