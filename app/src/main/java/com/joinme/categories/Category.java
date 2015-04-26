@@ -117,17 +117,23 @@ public class Category extends Activity {
     }
 
     private String buildStringForToast(String[] events, String subscriptionAmount, String organizerEvent) {
-        StringBuffer allEvents = new StringBuffer();
-        for (int i = 0; i < events.length; i++) {
-            if (i != events.length - 1) {
-                allEvents.append(events[i] + ", ");
-            } else {
-                allEvents.append(events[i]);
-            }
-        }
 
-        return "You subscribed to " + subscriptionAmount + " and organized " + organizerEvent + " in "
-                + allEvents.toString() + " categories";
+        if(events.length != 0) {
+
+            StringBuffer allEvents = new StringBuffer();
+            for (int i = 0; i < events.length; i++) {
+                if (i != events.length - 1) {
+                    allEvents.append(events[i] + ", ");
+                } else {
+                    allEvents.append(events[i]);
+                }
+            }
+
+            return "You subscribed to " + subscriptionAmount + " and organized " + organizerEvent + " in "
+                    + allEvents.toString() + " categories";
+        } else {
+            return "You subscribed to " + subscriptionAmount + " and organized " + organizerEvent;
+        }
     }
     @Override
     public void onDestroy() {

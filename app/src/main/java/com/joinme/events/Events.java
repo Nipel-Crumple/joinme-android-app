@@ -130,7 +130,7 @@ public class Events extends Activity implements SwipeRefreshLayout.OnRefreshList
         JSONObject jsonResponse = proc.getJsonResponse();
         List<EventInfo> list = createList(jsonResponse, userEmail);
 
-        final EventAdapter eventAdapter = new EventAdapter(list, getApplicationContext(), token);
+        final EventAdapter eventAdapter = new EventAdapter(list, getApplicationContext(), token, this);
         eventList.setAdapter(eventAdapter);
         // начинаем показывать прогресс
         mSwipeRefreshLayout.setRefreshing(true);

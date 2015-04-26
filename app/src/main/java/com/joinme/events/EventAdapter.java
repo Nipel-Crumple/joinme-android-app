@@ -1,12 +1,11 @@
 package com.joinme.events;
 
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Parcel;
-import android.support.annotation.NonNull;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,11 +26,13 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     private  EventViewHolder eventViewHolder;
     private Context context;
     private String token;
+    private Activity activity;
 
-    public EventAdapter(List<EventInfo> eventList, Context context, String token) {
+    public EventAdapter(List<EventInfo> eventList, Context context, String token, Activity activity) {
         this.eventList = eventList;
         this.context = context;
         this.token = token;
+        this.activity = activity;
     }
 
     @Override
@@ -53,6 +54,13 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         eventViewHolder.vMembersTitle.setText(eventInfo.membersTitle);
         eventViewHolder.vMembersList.setText(eventInfo.members);
         eventViewHolder.vActionOne.setText(eventInfo.action_one);
+        eventViewHolder.vActionOne.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://master-igor.com/joinme/event/" + eventInfo.eventId + "/"));
+                activity.startActivity(browserIntent);
+            }
+        });
         eventViewHolder.vActionTwo.setText(eventInfo.action_two);
         eventViewHolder.vActionTwo.setOnClickListener(new View.OnClickListener() {
             @Override
