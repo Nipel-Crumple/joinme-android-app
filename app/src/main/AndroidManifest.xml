@@ -26,7 +26,7 @@
         <activity
             android:label="@string/events"
             android:name=".events.Events"
-            android:theme="@style/AppTheme.Category">
+            android:theme="@style/AppTheme.Events">
         </activity>
 
 

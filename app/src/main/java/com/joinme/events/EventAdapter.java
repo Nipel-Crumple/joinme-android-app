@@ -74,10 +74,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         return eventViewHolder;
     }
 
-    public EventViewHolder getEventViewHolder() {
-        return eventViewHolder;
-    }
-
     public class EventViewHolder extends RecyclerView.ViewHolder {
         protected TextView vTitle;
         protected CircleImageView vCreatorAvatar;
