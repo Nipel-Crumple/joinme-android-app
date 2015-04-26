@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,6 +20,7 @@ import android.widget.Toast;
 import com.joinme.R;
 import com.joinme.events.Events;
 import com.joinme.notifier.NotifierProcessor;
+import com.joinme.signin.SignInActivity;
 
 /**
  * Created by Johnny D on 11.04.2015.
@@ -93,7 +97,7 @@ public class Category extends Activity {
         String organizerEvent;
 
         SharedPreferences sharedPreferences = getSharedPreferences("JoinMe", Activity.MODE_PRIVATE);
-        final String token = sharedPreferences.getString("JoinMeToken", "");
+        String token = sharedPreferences.getString("JoinMeToken", "");
         Log.d("Token in category", token);
         NotifierProcessor notifierProcessor = new NotifierProcessor(token);
         Thread thread = new Thread(notifierProcessor);
@@ -140,4 +144,24 @@ public class Category extends Activity {
         super.onDestroy();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public void signOut(MenuItem item) {
+        Log.d("Logout", "CATEGORY");
+
+        SharedPreferences sharedPreferences = getSharedPreferences("JoinMe", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("JoinMeToken", "");
+        editor.apply();
+
+        Intent intent = new Intent(Category.this, SignInActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }

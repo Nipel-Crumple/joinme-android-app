@@ -1,6 +1,7 @@
 package com.joinme.events;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -8,10 +9,14 @@ import android.support.v7.internal.app.ToolbarActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.joinme.R;
+import com.joinme.signin.SignInActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -143,5 +148,26 @@ public class Events extends Activity implements SwipeRefreshLayout.OnRefreshList
 //                Toast.makeText(Events.this, R.string.refresh_finished, Toast.LENGTH_SHORT).show();
             }
         }, 2000);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public void signOut(MenuItem item) {
+        Log.d("Logout", "EVENT");
+
+        SharedPreferences sharedPreferences = getSharedPreferences("JoinMe", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("JoinMeToken", "");
+        editor.apply();
+
+        Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

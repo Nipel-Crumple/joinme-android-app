@@ -31,6 +31,7 @@ public class SignInActivity extends Activity {
         if (!token.equals("")) {
             Intent i = new Intent(getApplicationContext(), Category.class);
             startActivity(i);
+            finish();
         }
 
         final ButtonFlat login = (ButtonFlat) findViewById(R.id.btnLogin);
@@ -41,28 +42,36 @@ public class SignInActivity extends Activity {
             public void onClick(View v) {
                 String email = ((EditText) findViewById(R.id.email)).getText().toString();
                 String password = ((EditText) findViewById(R.id.password)).getText().toString();
-                LoginProcessor loginProcessor = new LoginProcessor(email, password, LoginProcessor.Type.REGISTER);
-                Thread thr = new Thread(loginProcessor);
-                thr.start();
-                String serverResponse = null;
-                boolean isError = true;
-                try {
-                    thr.join();
-                    isError = loginProcessor.isError();
-                    serverResponse = loginProcessor.getServerMessage();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
 
-                if (!isError) {
-                    Log.d("Successful register ", email);
-                    Intent i = new Intent(getApplicationContext(), Category.class);
-                    startActivity(i);
-                } else {
-                    Log.d("Cannot register: ", email);
+                if (email.equals("") || password.equals("")) {
                     Context context = getApplicationContext();
-                    Toast toast = Toast.makeText(context, serverResponse, Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(context, "Please enter and password", Toast.LENGTH_SHORT);
                     toast.show();
+                } else {
+                    LoginProcessor loginProcessor = new LoginProcessor(email, password, LoginProcessor.Type.REGISTER);
+                    Thread thr = new Thread(loginProcessor);
+                    thr.start();
+                    String serverResponse = null;
+                    boolean isError = true;
+                    try {
+                        thr.join();
+                        isError = loginProcessor.isError();
+                        serverResponse = loginProcessor.getServerMessage();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (!isError) {
+                        Log.d("Successful register ", email);
+                        Context context = getApplicationContext();
+                        Toast toast = Toast.makeText(context, "Please, verify your email.", Toast.LENGTH_SHORT);
+                        toast.show();
+                    } else {
+                        Log.d("Cannot register: ", email);
+                        Context context = getApplicationContext();
+                        Toast toast = Toast.makeText(context, serverResponse, Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
                 }
             }
         });
@@ -72,33 +81,42 @@ public class SignInActivity extends Activity {
             public void onClick(View v) {
                 String email = ((EditText) findViewById(R.id.email)).getText().toString();
                 String password = ((EditText) findViewById(R.id.password)).getText().toString();
-                LoginProcessor loginProcessor = new LoginProcessor(email, password, LoginProcessor.Type.LOGIN);
-                Thread thr = new Thread(loginProcessor);
-                thr.start();
-                String serverResponse = null;
-                boolean isError = true;
-                try {
-                    thr.join();
-                    isError = loginProcessor.isError();
-                    serverResponse = loginProcessor.getServerMessage();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
 
-                if (!isError) {
-                    Log.d("Successful login ", email);
-                    SharedPreferences sharedPreferences = getSharedPreferences("JoinMe", Activity.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("JoinMeToken", serverResponse);
-                    editor.putString("JoinMeUserEmail", email);
-                    editor.apply();
-                    Intent i = new Intent(getApplicationContext(), Category.class);
-                    startActivity(i);
-                } else {
-                    Log.d("Cannot login: ", email);
+                if (email.equals("") || password.equals("")) {
                     Context context = getApplicationContext();
-                    Toast toast = Toast.makeText(context, serverResponse, Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(context, "Please enter and password", Toast.LENGTH_SHORT);
                     toast.show();
+                } else {
+
+                    LoginProcessor loginProcessor = new LoginProcessor(email, password, LoginProcessor.Type.LOGIN);
+                    Thread thr = new Thread(loginProcessor);
+                    thr.start();
+                    String serverResponse = null;
+                    boolean isError = true;
+                    try {
+                        thr.join();
+                        isError = loginProcessor.isError();
+                        serverResponse = loginProcessor.getServerMessage();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (!isError) {
+                        Log.d("Successful login ", email);
+                        SharedPreferences sharedPreferences = getSharedPreferences("JoinMe", Activity.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("JoinMeToken", serverResponse);
+                        editor.putString("JoinMeUserEmail", email);
+                        editor.apply();
+                        Intent i = new Intent(getApplicationContext(), Category.class);
+                        startActivity(i);
+                        finish();
+                    } else {
+                        Log.d("Cannot login: ", email);
+                        Context context = getApplicationContext();
+                        Toast toast = Toast.makeText(context, serverResponse, Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
                 }
             }
         });

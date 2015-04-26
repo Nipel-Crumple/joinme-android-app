@@ -70,10 +70,15 @@ public class NotifierProcessor implements Runnable {
             Log.d("Notifier response", responseString);
 
             JSONObject data = new JSONObject(responseString);
-            JSONObject error = data.optJSONObject("error");
+            String error = "";
+            try {
+                data.getString("error");
+            } catch (JSONException e) {
+                error = "";
+            }
             JSONObject response = data.optJSONObject("response");
 
-            if (response == null && error != null) {
+            if (response == null && !error.equals("")) {
                 Log.d("Error to get notify", error.toString());
             } else {
                 subscriptionAmount = response.getString("count");

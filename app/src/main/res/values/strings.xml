@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">joinme</string>
+    <string name="app_name">JoinMe</string>
 
     <string name="password">Password</string>
     <string name="email">Email</string>
@@ -7,6 +7,7 @@
     <string name="signin">Sign In</string>
     <string name="join">New to JoinMe? Register here!</string>
     <string name="signup">Sign Up</string>
+    <string name="signout">Sign Out</string>
     <string-array name="category_array">
         <item>&#xf0f4; Food</item>
         <item>&#xf206; Sport</item>

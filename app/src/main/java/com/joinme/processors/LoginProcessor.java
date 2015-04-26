@@ -62,6 +62,7 @@ public class LoginProcessor implements Runnable {
 
         try {
             String url = null;
+            String error = "";
             setError(false);
 
             switch (type) {
@@ -72,14 +73,17 @@ public class LoginProcessor implements Runnable {
                     Log.d("GET to signin", "" + url);
                     String responseString = client.execute(httpGet, responseHandler);
                     JSONObject dataJSON = new JSONObject(responseString);
-                    JSONObject error = dataJSON.optJSONObject("error");
-//
-                    if (error == null) {
+                    try {
+                        error = dataJSON.getString("error");
+                    } catch (JSONException e) {
+                        error = "";
+                    }
+                    if (error.equals("")) {
                         serverMessage = dataJSON.getString("token");
                         Log.d("Token in Login ", serverMessage);
                     } else {
-                        serverMessage = null;
                         setError(true);
+                        serverMessage = error;
                     }
                     break;
                 case REGISTER:
@@ -93,13 +97,16 @@ public class LoginProcessor implements Runnable {
                     HttpResponse response = client.execute(httpPost);
                     responseString = EntityUtils.toString(response.getEntity());
                     dataJSON = new JSONObject(responseString);
-                    error = dataJSON.optJSONObject("error");
-
-                    if (error == null) {
+                    try {
+                        error = dataJSON.getString("error");
+                    } catch (JSONException e) {
+                        error = "";
+                    }
+                    if (error.equals("")) {
                         serverMessage = dataJSON.getString("token");
                     } else {
                         setError(true);
-                        serverMessage = null;
+                        serverMessage = error;
                     }
                     break;
             }

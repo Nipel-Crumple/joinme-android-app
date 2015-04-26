@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".categories.Category">
+  <!--  <item
+        android:id="@+id/settings"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:onClick="openSettings"
+        android:title="@string/settings" />
+    <item
+        android:id="@+id/close_app"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:onClick="closeApp"
+        android:title="@string/close_app" />-->
+    <item
+        android:id="@+id/sign_out"
+        android:orderInCategory="100"
+        android:onClick="signOut"
+        android:title="@string/signout" />
+</menu>
