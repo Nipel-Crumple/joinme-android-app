@@ -1,10 +1,6 @@
 package com.joinme.events;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Parcel;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,12 +11,6 @@ import com.gc.materialdesign.views.ButtonFlat;
 import com.joinme.R;
 import com.squareup.picasso.Picasso;
 
-import android.net.Uri;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
