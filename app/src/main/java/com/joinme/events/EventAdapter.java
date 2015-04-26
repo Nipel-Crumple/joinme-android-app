@@ -1,6 +1,8 @@
 package com.joinme.events;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Parcel;
@@ -30,10 +32,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     private List<EventInfo> eventList;
     private  EventViewHolder eventViewHolder;
     private Context context;
+    private String token;
 
-    public EventAdapter(List<EventInfo> eventList, Context context) {
+    public EventAdapter(List<EventInfo> eventList, Context context, String token) {
         this.eventList = eventList;
         this.context = context;
+        this.token = token;
     }
 
     @Override
@@ -43,7 +47,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
     @Override
     public void onBindViewHolder(EventViewHolder eventViewHolder, int i) {
-        EventInfo eventInfo = eventList.get(i);
+        final EventInfo eventInfo = eventList.get(i);
         eventViewHolder.vTitle.setText(eventInfo.title);
         eventViewHolder.vCreator.setText(eventInfo.creator);
         String imageUrl = eventInfo.imageUrl;
@@ -56,6 +60,14 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         eventViewHolder.vMembersList.setText(eventInfo.members);
         eventViewHolder.vActionOne.setText(eventInfo.action_one);
         eventViewHolder.vActionTwo.setText(eventInfo.action_two);
+        eventViewHolder.vActionTwo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String action = eventInfo.action_two;
+                EventProcessor ep = new EventProcessor(token, action, eventInfo.eventId);
+                new Thread(ep).start();
+            }
+        });
     }
 
     @Override
@@ -94,14 +106,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             vMembersList = (TextView) v.findViewById(R.id.members);
             vActionOne = (ButtonFlat) v.findViewById(R.id.action1);
             vActionTwo = (ButtonFlat) v.findViewById(R.id.action2);
-        }
-
-        public ButtonFlat getvActionOne() {
-            return vActionOne;
-        }
-
-        public ButtonFlat getvActionTwo() {
-            return vActionTwo;
         }
     }
 }

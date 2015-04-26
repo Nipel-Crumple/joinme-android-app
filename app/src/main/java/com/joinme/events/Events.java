@@ -54,23 +54,7 @@ public class Events extends Activity {
         JSONObject jsonResponse = proc.getJsonResponse();
         List<EventInfo> list = createList(jsonResponse, userEmail);
 
-        final EventAdapter eventAdapter = new EventAdapter(list, getApplicationContext());
-//        eventAdapter.getEventViewHolder().getvActionTwo().setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String action = eventAdapter.getEventViewHolder().getvActionTwo().getText();
-//                EventProcessor eventProcessor = new EventProcessor(token, action);
-//                Thread thr = new Thread(eventProcessor);
-//                thr.start();
-//                try {
-//                    thr.join();
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//
-//
-//            }
-//        });
+        final EventAdapter eventAdapter = new EventAdapter(list, getApplicationContext(), token);
         eventList.setAdapter(eventAdapter);
     }
 
@@ -100,14 +84,15 @@ public class Events extends Activity {
                 eventInfo.description = object.getString("description");
                 Log.d("Description", eventInfo.description);
 
+                eventInfo.eventId = object.getString("id");
+                Log.d("EventId", eventInfo.eventId);
+
                 JSONArray memberArrayJson = object.getJSONArray("members");
 
-//                eventInfo.imageUrl = memberArrayJson.getJSONObject(0).getString("photo");
                 for (int j = 0; j < memberArrayJson.length(); j++) {
-                    members.add(memberArrayJson.getJSONObject(0).getString("username"));
+                    members.add(memberArrayJson.getJSONObject(j).getString("username"));
                     Log.d("member #" + j, members.get(j));
                 }
-//                members.add(eventInfo.creator);
 
                 StringBuffer stringBuffer = new StringBuffer();
                 for (String temp : members) {
@@ -120,11 +105,13 @@ public class Events extends Activity {
                 eventInfo.action_one = "MORE";
                 eventInfo.action_two = "JOIN";
 
-//                if (members.contains(currentUserEmail)) {
-//                    eventInfo.action_two = "LEAVE";
-//                } else {
-//                    eventInfo.action_two = "JOIN";
-//                }
+                if (members.contains(currentUserEmail)) {
+                    eventInfo.action_two = "LEAVE";
+                } else if (eventInfo.creator.equals(currentUserEmail)){
+                    eventInfo.action_two = "DELETE";
+                } else {
+                    eventInfo.action_two = "JOIN";
+                }
 
                 result.add(eventInfo);
             }

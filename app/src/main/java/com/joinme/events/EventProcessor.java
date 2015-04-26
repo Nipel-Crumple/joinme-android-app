@@ -28,15 +28,17 @@ public class EventProcessor implements Runnable {
     private String serverMessage;
     private String action;
     private JSONObject jsonResponse;
+    private String eventId;
 
     public EventProcessor(Bundle bundle, String token) {
         this.category = bundle.getString("category");
         this.token = token;
     }
 
-    public EventProcessor(String token, String action) {
+    public EventProcessor(String token, String action, String eventId) {
         this.action = action;
         this.token = token;
+        this.eventId = eventId;
     }
 
     public String buildGetCardsURL() {
@@ -47,13 +49,18 @@ public class EventProcessor implements Runnable {
     }
 
     public String buildJoinURL() {
-        return "http://master-igor.com/joinme/api/events/";
+        return "http://master-igor.com/joinme/api/event/join/?token=" + token +
+                "&id=" + eventId;
     }
 
     public String buildLeaveURL() {
-        return "http://master-igor.com/joinme/api/events/";
+        return "http://master-igor.com/joinme/api/event/leave/?token=" + token +
+                "&id=" + eventId;
     }
 
+    public String buildDeleteURL() {
+        return "http://master-igor.com/joinme/api/events/";
+    }
     @Override
     public void run() {
         HttpClient client = new DefaultHttpClient();
@@ -61,12 +68,18 @@ public class EventProcessor implements Runnable {
         if (this.category == null) {
             if (this.action.equals("JOIN")) {
                 url = buildJoinURL();
+                Log.d("JOIN URL: ", url);
             }
-            else {
+            else if (this.action.equals("LEAVE")) {
                 url = buildLeaveURL();
+                Log.d("LEAVE URL: ", url);
+            } else {
+                url = buildDeleteURL();
+                Log.d("DELETE URL: ", url);
             }
         } else {
             url = buildGetCardsURL();
+            Log.d("GET CARDS URL: ", url);
         }
         HttpGet httpGet = new HttpGet(url);
         ResponseHandler<String> responseHandler = new BasicResponseHandler();
