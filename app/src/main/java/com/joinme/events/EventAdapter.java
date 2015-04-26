@@ -46,7 +46,10 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         EventInfo eventInfo = eventList.get(i);
         eventViewHolder.vTitle.setText(eventInfo.title);
         eventViewHolder.vCreator.setText(eventInfo.creator);
-        Picasso.with(context).load(eventInfo.imageUrl).into(eventViewHolder.vCreatorAvatar);
+        String imageUrl = eventInfo.imageUrl;
+        if (imageUrl != null && !imageUrl.equals("")) {
+            Picasso.with(context).load(imageUrl).into(eventViewHolder.vCreatorAvatar);
+        }
         eventViewHolder.vDescriptionTitle.setText(eventInfo.descriptionTitle);
         eventViewHolder.vDescription.setText(eventInfo.description);
         eventViewHolder.vMembersTitle.setText(eventInfo.membersTitle);
