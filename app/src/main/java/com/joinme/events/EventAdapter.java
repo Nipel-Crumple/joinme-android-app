@@ -57,7 +57,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         eventViewHolder.vActionOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://master-igor.com/joinme/event/" + eventInfo.eventId + "/"));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://joinmipt.com/event/" + eventInfo.eventId + "/"));
                 activity.startActivity(browserIntent);
             }
         });

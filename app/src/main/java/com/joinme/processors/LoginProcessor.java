@@ -19,6 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,70 +61,85 @@ public class LoginProcessor implements Runnable {
 
         HttpClient client = new DefaultHttpClient();
 
-        try {
-            String url = null;
-            String error = "";
-            setError(false);
+        String url = null;
+        setError(false);
 
-            switch (type) {
-                case LOGIN:
-                    url = buildLoginUrl();
-                    HttpGet httpGet = new HttpGet(url);
-                    ResponseHandler<String> responseHandler = new BasicResponseHandler();
-                    Log.d("GET to signin", "" + url);
-                    String responseString = client.execute(httpGet, responseHandler);
-                    JSONObject dataJSON = new JSONObject(responseString);
-                    try {
-                        error = dataJSON.getString("error");
-                    } catch (JSONException e) {
-                        error = "";
-                    }
-                    if (error.equals("")) {
-                        serverMessage = dataJSON.getString("token");
-                        Log.d("Token in Login ", serverMessage);
-                    } else {
-                        setError(true);
-                        serverMessage = error;
-                    }
-                    break;
-                case REGISTER:
-                    url = buildRegisterUrl();
-                    HttpPost httpPost = new HttpPost(url);
-                    // Execute HTTP Post Request
-                    List<NameValuePair> params = new ArrayList<>();
-                    params.add(new BasicNameValuePair("email", email));
-                    params.add(new BasicNameValuePair("password", password));
-                    httpPost.setEntity(new UrlEncodedFormEntity(params));
-                    HttpResponse response = client.execute(httpPost);
-                    responseString = EntityUtils.toString(response.getEntity());
-                    dataJSON = new JSONObject(responseString);
-                    try {
-                        error = dataJSON.getString("error");
-                    } catch (JSONException e) {
-                        error = "";
-                    }
-                    if (error.equals("")) {
-                        serverMessage = dataJSON.getString("token");
-                    } else {
-                        setError(true);
-                        serverMessage = error;
-                    }
-                    break;
+        if (type == Type.LOGIN) {
+            try {
+                url = buildLoginUrl();
+                HttpGet httpGet = new HttpGet(url);
+                ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                Log.d("GET to signin", "" + url);
+                String responseString = client.execute(httpGet, responseHandler);
+                JSONObject dataJSON = new JSONObject(responseString);
+                JSONObject error = dataJSON.optJSONObject("error");
+
+                if (error == null) {
+                    serverMessage = dataJSON.getString("token");
+                    Log.d("Token in Login ", serverMessage);
+                } else {
+                    serverMessage = null;
+                    setError(true);
+                }
+            } catch (MalformedURLException e) {
+                serverMessage = null;
+                setError(true);
+                Log.d("Login failed", "isError TRU1");
+            } catch (JSONException e) {
+                serverMessage = null;
+                setError(true);
+                Log.d("Login failed", "isError TRUE");
+            } catch (ClientProtocolException e) {
+                serverMessage = null;
+                setError(true);
+                Log.d("Login failed", "isError TRUE");
+            } catch (IOException e) {
+                serverMessage = null;
+                setError(true);
+                Log.d("Login failed", "isError TRUE");
             }
-            Log.d("Server response:", "msg= " + serverMessage);
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
+
+        } else if (type == Type.REGISTER) {
+            try {
+                url = buildRegisterUrl();
+                HttpPost httpPost = new HttpPost(url);
+                // Execute HTTP Post Request
+                List<NameValuePair> params = new ArrayList<>();
+                params.add(new BasicNameValuePair("email", email));
+                params.add(new BasicNameValuePair("password", password));
+                httpPost.setEntity(new UrlEncodedFormEntity(params));
+                HttpResponse response = client.execute(httpPost);
+                String responseString = EntityUtils.toString(response.getEntity());
+                JSONObject dataJSON = new JSONObject(responseString);
+                JSONObject error = dataJSON.optJSONObject("error");
+
+                if (error == null) {
+                    serverMessage = dataJSON.getString("token");
+                } else {
+                    setError(true);
+                    serverMessage = null;
+                }
+            }  catch (UnsupportedEncodingException e) {
+                setError(true);
+                serverMessage = null;
+            } catch (IOException e) {
+                setError(true);
+                serverMessage = null;
+            } catch (JSONException e) {
+                setError(true);
+                serverMessage = null;
+            }
+
         }
+
+        Log.d("Server response:", "msg= " + serverMessage);
+
     }
 
     private String buildLoginUrl() throws MalformedURLException {
         String urlString = null;
         if (email != null && password != null) {
-            urlString = "http://master-igor.com/joinme/api/login?login=" +
+            urlString = "https://joinmipt.com/api/login?login=" +
                     email + "&password=" + password;
         }
         Log.d("String to send:", urlString);
@@ -131,7 +147,7 @@ public class LoginProcessor implements Runnable {
     }
 
     private String buildRegisterUrl() throws MalformedURLException {
-        String urlString = "http://master-igor.com/joinme/api/reg/";
+        String urlString = "https://joinmipt.com/api/reg/";
 
         Log.d("String to send:", urlString);
         return urlString;
@@ -139,7 +155,7 @@ public class LoginProcessor implements Runnable {
 
 
 /*    private String getCSRFToken() throws IOException {
-        String urlString = "http://master-igor.com/joinme/api/csrf/";
+        String urlString = "https://joinmipt.com/joinme/api/csrf/";
         Log.d("String to send:", urlString);
 
         HttpClient client = new DefaultHttpClient();

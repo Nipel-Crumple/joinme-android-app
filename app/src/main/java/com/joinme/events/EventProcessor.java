@@ -42,24 +42,24 @@ public class EventProcessor implements Runnable {
     }
 
     public String buildGetCardsURL() {
-        String url = "http://master-igor.com/joinme/api/events/?token=" + token
+        String url = "https://joinmipt.com/api/events/?token=" + token
                 + "&category=" + category;
         Log.d("Request url: ", url + "");
         return url;
     }
 
     public String buildJoinURL() {
-        return "http://master-igor.com/joinme/api/event/join/?token=" + token +
+        return "https://joinmipt.com/api/event/join/?token=" + token +
                 "&id=" + eventId;
     }
 
     public String buildLeaveURL() {
-        return "http://master-igor.com/joinme/api/event/leave/?token=" + token +
+        return "https://joinmipt.com/api/event/leave/?token=" + token +
                 "&id=" + eventId;
     }
 
     public String buildDeleteURL() {
-        return "http://master-igor.com/joinme/api/event/delete/?token=" + token +
+        return "https://joinmipt.com/api/event/delete/?token=" + token +
                 "&id=" + eventId;
     }
     @Override

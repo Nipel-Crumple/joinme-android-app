@@ -52,7 +52,7 @@ public class NotifierProcessor implements Runnable {
     }
 
     public String buildGetNotifierUrl() {
-        String url = "http://master-igor.com/joinme/api/events/next/?token=" + token;
+        String url = "https://joinmipt.com/api/events/next/?token=" + token;
         Log.d("Request while start app", url);
         return url;
     }
