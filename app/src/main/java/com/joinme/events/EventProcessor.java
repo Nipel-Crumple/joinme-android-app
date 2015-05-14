@@ -14,14 +14,21 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Created by Johnny D on 25.04.2015.
  */
 public class EventProcessor implements Runnable {
+    private static final String TAG = EventProcessor.class.getSimpleName();
 
     private String category;
     private String token;
@@ -41,52 +48,84 @@ public class EventProcessor implements Runnable {
         this.eventId = eventId;
     }
 
-    public String buildGetCardsURL() {
-        String url = "https://joinmipt.com/api/events/?token=" + token
+    public URL buildGetCardsURL() {
+        URL url = null;
+        String urlString = "https://joinmipt.com/api/events/?token=" + token
                 + "&category=" + category;
-        Log.d("Request url: ", url + "");
+        Log.d("Request url: ", urlString + "");
+        try {
+            url = new URL(urlString);
+        } catch (MalformedURLException e) {
+            Log.d(TAG, "Can' create get cards URL");
+        }
+
         return url;
     }
 
-    public String buildJoinURL() {
-        return "https://joinmipt.com/api/event/join/?token=" + token +
+    public URL buildJoinURL() {
+        URL url = null;
+        String urlString = "https://joinmipt.com/api/event/join/?token=" + token +
                 "&id=" + eventId;
+        Log.d("Request url: ", urlString + "");
+        try {
+            url = new URL(urlString);
+        } catch (MalformedURLException e) {
+            Log.d(TAG, "Can' create get cards URL");
+        }
+
+        return url;
     }
 
-    public String buildLeaveURL() {
-        return "https://joinmipt.com/api/event/leave/?token=" + token +
+    public URL buildLeaveURL() {
+        URL url = null;
+        String urlString = "https://joinmipt.com/api/event/leave/?token=" + token +
                 "&id=" + eventId;
+        Log.d("Request url: ", urlString + "");
+        try {
+            url = new URL(urlString);
+        } catch (MalformedURLException e) {
+            Log.d(TAG, "Can' create get cards URL");
+        }
+
+        return url;
     }
 
-    public String buildDeleteURL() {
-        return "https://joinmipt.com/api/event/delete/?token=" + token +
+    public URL buildDeleteURL() {
+        URL url = null;
+        String urlString = "https://joinmipt.com/api/event/delete/?token=" + token +
                 "&id=" + eventId;
+
+        Log.d("Request url: ", urlString + "");
+        try {
+            url = new URL(urlString);
+        } catch (MalformedURLException e) {
+            Log.d(TAG, "Can' create get cards URL");
+        }
+
+        return url;
     }
+
     @Override
     public void run() {
-        HttpClient client = new DefaultHttpClient();
-        String url;
+        URL url;
         if (this.category == null) {
             if (this.action.equals("JOIN")) {
                 url = buildJoinURL();
-                Log.d("JOIN URL: ", url);
-            }
-            else if (this.action.equals("LEAVE")) {
+                Log.d("JOIN URL: ", url.toString());
+            } else if (this.action.equals("LEAVE")) {
                 url = buildLeaveURL();
-                Log.d("LEAVE URL: ", url);
+                Log.d("LEAVE URL: ", url.toString());
             } else {
                 url = buildDeleteURL();
-                Log.d("DELETE URL: ", url);
+                Log.d("DELETE URL: ", url.toString());
             }
         } else {
             url = buildGetCardsURL();
-            Log.d("GET CARDS URL: ", url);
+            Log.d("GET CARDS URL: ", url.toString());
         }
-        HttpGet httpGet = new HttpGet(url);
-        ResponseHandler<String> responseHandler = new BasicResponseHandler();
-        String responseString = null;
         try {
-            responseString = client.execute(httpGet, responseHandler);
+            HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
+            String responseString = getHTTPSContent(con);
 //            Log.d("Response: ", responseString);
             JSONObject dataJSON = new JSONObject(responseString);
             this.jsonResponse = dataJSON;
@@ -107,5 +146,30 @@ public class EventProcessor implements Runnable {
 
     public JSONObject getJsonResponse() {
         return jsonResponse;
+    }
+
+    private String getHTTPSContent(HttpsURLConnection con) {
+        int capacity = 200;
+        String input = null;
+        StringBuilder stringBuilder = new StringBuilder(capacity);
+        if (con != null) {
+
+            try {
+                BufferedReader br =
+                        new BufferedReader(
+                                new InputStreamReader(con.getInputStream()));
+
+
+                while ((input = br.readLine()) != null) {
+                    stringBuilder.append(input);
+                }
+                br.close();
+                return stringBuilder.toString();
+            } catch (IOException e) {
+                Log.d(TAG, "Can't retrieve data via HTTPS");
+            }
+
+        }
+        return null;
     }
 }

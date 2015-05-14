@@ -30,14 +30,5 @@
             android:theme="@style/AppTheme.Events">
         </activity>
 
-
-        <service android:name=".signin.AuthenticatorService">
-            <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator" />
-            </intent-filter>
-            <meta-data android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator" />
-        </service>
-
     </application>
 </manifest>

@@ -49,7 +49,7 @@ public class SignInActivity extends Activity {
 
                     if (email.equals("") || password.equals("")) {
                         Context context = getApplicationContext();
-                        Toast toast = Toast.makeText(context, "Please enter and password", Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(context, "Пожалуйста, введите логин и пароль", Toast.LENGTH_SHORT);
                         toast.show();
                     } else {
                         LoginProcessor loginProcessor = new LoginProcessor(email, password, LoginProcessor.Type.REGISTER);
@@ -68,7 +68,7 @@ public class SignInActivity extends Activity {
                         if (!isError) {
                             Log.d("Successful register ", email);
                             Context context = getApplicationContext();
-                            Toast toast = Toast.makeText(context, "Please, verify your email.", Toast.LENGTH_SHORT);
+                            Toast toast = Toast.makeText(context, "Пожалуйтса, подтвердите свою почту.", Toast.LENGTH_SHORT);
                             toast.show();
                         } else {
                             Log.d("Cannot register: ", email);
@@ -88,7 +88,7 @@ public class SignInActivity extends Activity {
 
                     if (email.equals("") || password.equals("")) {
                         Context context = getApplicationContext();
-                        Toast toast = Toast.makeText(context, "Please enter and password", Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(context, "Пожалуйста, введите логин и пароль ", Toast.LENGTH_SHORT);
                         toast.show();
                     } else {
 
@@ -125,7 +125,7 @@ public class SignInActivity extends Activity {
                 }
             });
         } else {
-            Toast.makeText(SignInActivity.this,"No Internet Connection",Toast.LENGTH_LONG).show();
+            Toast.makeText(SignInActivity.this,"Нет интернет соединения",Toast.LENGTH_LONG).show();
         }
     }
 }

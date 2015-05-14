@@ -56,28 +56,28 @@ public class Category extends Activity {
                     switch (v.getId()) {
                         case 0:
                             i = new Intent(getApplicationContext(), Events.class);
-                            i.putExtra("category", "food");
+                            i.putExtra("category", "еда");
                             startActivity(i);
                             break;
                         case 1:
                             i = new Intent(getApplicationContext(), Events.class);
-                            i.putExtra("category", "sport");
+                            i.putExtra("category", "спорт");
                             startActivity(i);
                             break;
                         case 2:
                             i = new Intent(getApplicationContext(), Events.class);
-                            i.putExtra("category", "teaching");
+                            i.putExtra("category", "учёба");
                             startActivity(i);
                             break;
                         case 3:
                             i = new Intent(getApplicationContext(), Events.class);
-                            i.putExtra("category", "movie");
+                            i.putExtra("category", "фильмы");
                             startActivity(i);
                             break;
 
                         case 4:
                             i = new Intent(getApplicationContext(), Events.class);
-                            i.putExtra("category", "theater");
+                            i.putExtra("category", "театр");
                             startActivity(i);
                             break;
                     }
