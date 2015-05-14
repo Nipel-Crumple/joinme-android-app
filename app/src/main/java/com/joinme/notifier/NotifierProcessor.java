@@ -11,12 +11,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Created by Johnny D on 26.04.2015.
  */
 public class NotifierProcessor implements Runnable {
+
+    private static final String TAG = NotifierProcessor.class.getSimpleName();
+
     private JSONObject jsonResponse;
     private String[] events;
     private String subscriptionAmount;
@@ -51,22 +60,25 @@ public class NotifierProcessor implements Runnable {
         this.events = events;
     }
 
-    public String buildGetNotifierUrl() {
-        String url = "https://joinmipt.com/api/events/next/?token=" + token;
-        Log.d("Request while start app", url);
+    public URL buildGetNotifierUrl() {
+        String urlString = "https://joinmipt.com/api/events/next/?token=" + token;
+        URL url = null;
+        try {
+            url = new URL(urlString);
+        } catch (MalformedURLException e) {
+            Log.d(TAG, "Can't get notifications");
+        }
+        Log.d("Request while start app", urlString);
         return url;
     }
 
     @Override
     public void run() {
         HttpClient client = new DefaultHttpClient();
-        String url = buildGetNotifierUrl();
-        HttpGet httpGet = new HttpGet(url);
-        ResponseHandler<String> responseHandler = new BasicResponseHandler();
-        String responseString = null;
-
+        URL url = buildGetNotifierUrl();
         try {
-            responseString = client.execute(httpGet, responseHandler);
+            HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
+            String responseString = getHTTPSContent(con);
             Log.d("Notifier response", responseString);
 
             JSONObject data = new JSONObject(responseString);
@@ -98,5 +110,30 @@ public class NotifierProcessor implements Runnable {
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private String getHTTPSContent(HttpsURLConnection con) {
+        int capacity = 200;
+        String input = null;
+        StringBuilder stringBuilder = new StringBuilder(capacity);
+        if (con != null) {
+
+            try {
+                BufferedReader br =
+                        new BufferedReader(
+                                new InputStreamReader(con.getInputStream()));
+
+
+                while ((input = br.readLine()) != null) {
+                    stringBuilder.append(input);
+                }
+                br.close();
+                return stringBuilder.toString();
+            } catch (IOException e) {
+                Log.d(TAG, "Can't retrieve data via HTTPS");
+            }
+
+        }
+        return null;
     }
 }
