@@ -62,7 +62,7 @@ public class Events extends Activity implements SwipeRefreshLayout.OnRefreshList
                 eventInfo.imageUrl = object.getJSONObject("author").getString("photo");
                 Log.d("Photo:", eventInfo.imageUrl);
 
-                eventInfo.descriptionTitle = "Description";
+                eventInfo.descriptionTitle = "Описание";
                 Log.d("Description title", eventInfo.descriptionTitle);
 
                 eventInfo.description = object.getString("description");
@@ -86,17 +86,17 @@ public class Events extends Activity implements SwipeRefreshLayout.OnRefreshList
 
                 Log.d("String of members:", stringBuffer.toString());
 
-                eventInfo.membersTitle = "Members";
+                eventInfo.membersTitle = "Участники";
                 eventInfo.members = stringBuffer.toString();
-                eventInfo.action_one = "MORE";
-                eventInfo.action_two = "JOIN";
+                eventInfo.action_one = "ПОДРОБНЕЕ";
+                eventInfo.action_two = "ПРИСОЕДИНИТЬСЯ";
 
                 if (members.contains(currentUserEmail)) {
-                    eventInfo.action_two = "LEAVE";
+                    eventInfo.action_two = "ПОКИНУТЬ";
                 } else if (eventInfo.creator.equals(currentUserEmail)){
-                    eventInfo.action_two = "DELETE";
+                    eventInfo.action_two = "УДАЛИТЬ";
                 } else {
-                    eventInfo.action_two = "JOIN";
+                    eventInfo.action_two = "ПРИСОЕДИНИТЬСЯ";
                 }
 
                 result.add(eventInfo);
