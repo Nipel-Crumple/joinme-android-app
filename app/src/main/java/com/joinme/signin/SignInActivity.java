@@ -23,7 +23,7 @@ public class SignInActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         setContentView(R.layout.login);
         final ButtonFlat login = (ButtonFlat) findViewById(R.id.btnLogin);
         final ButtonFlat register = (ButtonFlat) findViewById(R.id.btnRegister);
