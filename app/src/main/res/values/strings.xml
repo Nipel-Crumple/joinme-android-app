@@ -1,33 +1,33 @@
 <resources>
     <string name="app_name">JoinMe</string>
 
-    <string name="password">Password</string>
+    <string name="password">Пароль</string>
     <string name="email">Email</string>
     <string name="action_settings">Settings</string>
-    <string name="signin">Sign In</string>
+    <string name="signin">Войти</string>
     <string name="join">New to JoinMe? Register here!</string>
-    <string name="signup">Sign Up</string>
-    <string name="signout">Sign Out</string>
+    <string name="signup">Регистрация</string>
+    <string name="signout">Выйти</string>
     <string-array name="category_array">
-        <item>&#xf0f4; Food</item>
-        <item>&#xf206; Sport</item>
-        <item>&#xf19c; Teaching</item>
-        <item>&#xf03d; Movie</item>
-        <item>&#xf0c0; Theater</item>
+        <item>&#xf0f4; Еда</item>
+        <item>&#xf206; Спорт</item>
+        <item>&#xf19c; Учёба</item>
+        <item>&#xf03d; Фильмы</item>
+        <item>&#xf0c0; Театр</item>
     </string-array>
-    <string name="food">&#xf0f4; Food</string>
-    <string name="sport">&#xf206; Sport</string>
-    <string name="teaching">&#xf19c; Teaching</string>
-    <string name="movie">&#xf03d; Movie</string>
-    <string name="theater">&#xf0c0; Theater</string>
-    <string name="moredetails">More details...</string>
-    <string name="choosecategory">Choose category</string>
-    <string name="event">Event</string>
-    <string name="category">Category</string>
-    <string name="descriptiontitle">Description</string>
-    <string name="memberstitle">Members</string>
-    <string name="creator">Creator</string>
-    <string name="events">Events</string>
-    <string name="refresh_started">Refreshing</string>
-    <string name="refresh_finished">Finished</string>
+    <string name="food">&#xf0f4; Еда</string>
+    <string name="sport">&#xf206; Спорт</string>
+    <string name="teaching">&#xf19c; Учёба</string>
+    <string name="movie">&#xf03d; Фильмы</string>
+    <string name="theater">&#xf0c0; Театр</string>
+    <string name="moredetails">Подробнее...</string>
+    <string name="choosecategory">Выберете категорию</string>
+    <string name="event">Событие</string>
+    <string name="category">Категория</string>
+    <string name="descriptiontitle">Описание</string>
+    <string name="memberstitle">Участники</string>
+    <string name="creator">Создатель</string>
+    <string name="events">События</string>
+    <string name="refresh_started">Загрузка обновлений</string>
+    <string name="refresh_finished">Обновления загружены</string>
 </resources>
