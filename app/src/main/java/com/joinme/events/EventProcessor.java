@@ -109,10 +109,10 @@ public class EventProcessor implements Runnable {
     public void run() {
         URL url;
         if (this.category == null) {
-            if (this.action.equals("JOIN")) {
+            if (this.action.equals("ПРИСОЕДИНИТЬСЯ")) {
                 url = buildJoinURL();
                 Log.d("JOIN URL: ", url.toString());
-            } else if (this.action.equals("LEAVE")) {
+            } else if (this.action.equals("ПОКИНУТЬ")) {
                 url = buildLeaveURL();
                 Log.d("LEAVE URL: ", url.toString());
             } else {

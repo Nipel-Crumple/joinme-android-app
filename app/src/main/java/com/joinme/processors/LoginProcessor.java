@@ -1,7 +1,11 @@
 package com.joinme.processors;
 
 import android.content.SharedPreferences;
+import android.util.Base64;
 import android.util.Log;
+import android.widget.Toast;
+
+import junit.framework.Assert;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -20,11 +24,16 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.Socket;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
@@ -35,6 +44,7 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -95,66 +105,87 @@ public class LoginProcessor implements Runnable {
                 } else {
                     Log.d(TAG, "response string" + responseString);
                     JSONObject dataJSON = new JSONObject(responseString);
-                    JSONObject error = dataJSON.optJSONObject("error");
-
-                    if (error == null) {
+                    String error = dataJSON.optString("error");
+                    if (error.isEmpty()) {
                         serverMessage = dataJSON.getString("token");
                         Log.d("Token in Login ", serverMessage);
                     } else {
-                        serverMessage = null;
+                        serverMessage = error;
+                        Log.d("Error in login ", serverMessage);
                         setError(true);
                     }
                 }
             } catch (MalformedURLException e) {
                 serverMessage = null;
                 setError(true);
-                Log.d("Login failed", "isError TRU1");
+                Log.d("Login failed", "isError TRUE1");
             } catch (JSONException e) {
                 serverMessage = null;
                 setError(true);
-                Log.d("Login failed", "isError TRUE");
+                Log.d("Login failed", "isError TRUE2");
             } catch (ClientProtocolException e) {
                 serverMessage = null;
                 setError(true);
-                Log.d("Login failed", "isError TRUE");
+                Log.d("Login failed", "isError TRUE3");
             } catch (IOException e) {
                 serverMessage = null;
                 setError(true);
-                Log.d("Login failed", "isError TRUE");
+                Log.d("Login failed", "isError TRUE4");
             }
 
-        } /*else if (type == Type.REGISTER) {
+        } else if (type == Type.REGISTER) {
             try {
+                HttpsURLConnection conn;
                 url = buildRegisterUrl();
-                HttpPost httpPost = new HttpPost(url);
-                // Execute HTTP Post Request
-                List<NameValuePair> params = new ArrayList<>();
-                params.add(new BasicNameValuePair("email", email));
-                params.add(new BasicNameValuePair("password", password));
-                httpPost.setEntity(new UrlEncodedFormEntity(params));
-                HttpResponse response = client.execute(httpPost);
-                String responseString = EntityUtils.toString(response.getEntity());
-                JSONObject dataJSON = new JSONObject(responseString);
-                JSONObject error = dataJSON.optJSONObject("error");
+                String param = "email=" + URLEncoder.encode(email, "UTF-8") +
+                        "&password=" + URLEncoder.encode(password, "UTF-8");
+                conn = (HttpsURLConnection) url.openConnection();
+                conn.setDoOutput(true);
+                conn.setRequestMethod("POST");
+                conn.setFixedLengthStreamingMode(param.getBytes().length);
+                conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                PrintWriter out = new PrintWriter(conn.getOutputStream());
+                out.print(param);
+                out.close();
 
+                String response = "";
+                Scanner inStream = new Scanner(conn.getInputStream());
+                while (inStream.hasNextLine())
+                    response += (inStream.nextLine());
+
+                serverMessage = response;
+                JSONObject dataJSON = new JSONObject(response);
+                String error = dataJSON.optString("error");
                 if (error == null) {
                     serverMessage = dataJSON.getString("token");
+                    Log.d("Token in Login ", serverMessage);
                 } else {
+                    serverMessage = error;
                     setError(true);
-                    serverMessage = null;
                 }
+                Log.d("Response from Register", response.toString());
+            } catch (MalformedURLException e) {
+                serverMessage = null;
+                setError(true);
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                serverMessage = null;
+                setError(true);
+                e.printStackTrace();
             } catch (UnsupportedEncodingException e) {
-                setError(true);
                 serverMessage = null;
+                setError(true);
+                e.printStackTrace();
             } catch (IOException e) {
-                setError(true);
                 serverMessage = null;
+                setError(true);
+                e.printStackTrace();
             } catch (JSONException e) {
-                setError(true);
                 serverMessage = null;
+                setError(true);
+                e.printStackTrace();
             }
-
-        }*/
+        }
 
         Log.d("Server response:", "msg= " + serverMessage);
 
@@ -204,30 +235,58 @@ public class LoginProcessor implements Runnable {
         return null;
     }
 
-/*    private String getCSRFToken() throws IOException {
-        String urlString = "https://joinmipt.com/joinme/api/csrf/";
-        Log.d("String to send:", urlString);
+    /*    private String getCSRFToken() throws IOException {
+            String urlString = "https://joinmipt.com/joinme/api/csrf/";
+            Log.d("String to send:", urlString);
 
-        HttpClient client = new DefaultHttpClient();
-        HttpGet httpGet = new HttpGet(urlString);
-        ResponseHandler<String> responseHandler = new BasicResponseHandler();
-        String response = client.execute(httpGet, responseHandler);
+            HttpClient client = new DefaultHttpClient();
+            HttpGet httpGet = new HttpGet(urlString);
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            String response = client.execute(httpGet, responseHandler);
 
-        String token = null;
-        try {
-            JSONObject json = new JSONObject(response);
-            token = (String) json.get("token");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return token;
-    }*/
+            String token = null;
+            try {
+                JSONObject json = new JSONObject(response);
+                token = (String) json.get("token");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return token;
+        }*/
 
     public String getServerMessage() {
         return serverMessage;
     }
 
+    private InputStream getInputStream(String urlStr, String user, String password) throws IOException, KeyManagementException {
+        URL url = new URL(urlStr);
+        HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
 
+        // Create the SSL connection
+        SSLContext sc = null;
+        try {
+            sc = SSLContext.getInstance("TLS");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        sc.init(null, null, new java.security.SecureRandom());
+        conn.setSSLSocketFactory(sc.getSocketFactory());
 
+        // Use this if you need SSL authentication
+        String userpass = user + ":" + password;
+        String basicAuth = "Basic " + Base64.encodeToString(userpass.getBytes(), Base64.DEFAULT);
+        conn.setRequestProperty("Authorization", basicAuth);
+
+        // set Timeout and method
+        conn.setReadTimeout(7000);
+        conn.setConnectTimeout(7000);
+        conn.setRequestMethod("POST");
+        conn.setDoInput(true);
+
+        // Add any data you wish to post here
+
+        conn.connect();
+        return conn.getInputStream();
+    }
 }
 

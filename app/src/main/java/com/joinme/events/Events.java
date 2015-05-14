@@ -1,6 +1,7 @@
 package com.joinme.events;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -37,9 +38,7 @@ public class Events extends Activity implements SwipeRefreshLayout.OnRefreshList
         setContentView(R.layout.event_list);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-
         onRefresh();
-
     }
 
 
@@ -133,21 +132,27 @@ public class Events extends Activity implements SwipeRefreshLayout.OnRefreshList
             e.printStackTrace();
         }
         JSONObject jsonResponse = proc.getJsonResponse();
-        List<EventInfo> list = createList(jsonResponse, userEmail);
-
-        final EventAdapter eventAdapter = new EventAdapter(list, getApplicationContext(), token, this);
-        eventList.setAdapter(eventAdapter);
-        // начинаем показывать прогресс
-        mSwipeRefreshLayout.setRefreshing(true);
-        // ждем 3 секунды и прячем прогресс
-        mSwipeRefreshLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeRefreshLayout.setRefreshing(false);
-                // говорим о том, что собираемся закончить
-//                Toast.makeText(Events.this, R.string.refresh_finished, Toast.LENGTH_SHORT).show();
-            }
-        }, 2000);
+        String error = jsonResponse.optString("error");
+        if (error.isEmpty()) {
+            List<EventInfo> list = createList(jsonResponse, userEmail);
+            final EventAdapter eventAdapter = new EventAdapter(list, getApplicationContext(), token, this);
+            eventList.setAdapter(eventAdapter);
+            // начинаем показывать прогресс
+            mSwipeRefreshLayout.setRefreshing(true);
+            // ждем 3 секунды и прячем прогресс
+            mSwipeRefreshLayout.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                    // говорим о том, что собираемся закончить
+                    //                Toast.makeText(Events.this, R.string.refresh_finished, Toast.LENGTH_SHORT).show();
+                }
+            }, 2000);
+        } else {
+            Context context = getApplicationContext();
+            Toast toast = Toast.makeText(context, error, Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 
     @Override
