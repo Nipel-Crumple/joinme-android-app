@@ -88,7 +88,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
-                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
                 android:layout_marginBottom="8dp"
                 android:textColor="@color/black"
                 android:text="@string/memberstitle" />
@@ -121,7 +121,20 @@
 
             <com.gc.materialdesign.views.ButtonFlat
                 android:id="@+id/action2"
-                android:layout_toEndOf="@id/action1"
+                android:layout_toRightOf="@id/action1"
+                android:layout_width="wrap_content"
+                android:minWidth="88dp"
+                android:background="@color/blue"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:padding="6dp"
+                android:fontFamily="Roboto"
+                android:text="BUTTON2" />
+
+            <com.gc.materialdesign.views.ButtonFlat
+                android:id="@+id/action3"
+                android:layout_toRightOf="@id/action2"
                 android:layout_width="wrap_content"
                 android:minWidth="88dp"
                 android:background="@color/blue"

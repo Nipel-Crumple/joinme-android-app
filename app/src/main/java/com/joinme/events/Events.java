@@ -6,14 +6,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.internal.app.ToolbarActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.joinme.R;
@@ -70,6 +68,13 @@ public class Events extends Activity implements SwipeRefreshLayout.OnRefreshList
                 eventInfo.eventId = object.getString("id");
                 Log.d("EventId", eventInfo.eventId);
 
+                String coord = object.getString("coord");
+                eventInfo.lattitude = Double.valueOf(coord.split(",")[0]);
+                Log.d("Lattitude", "" + eventInfo.lattitude);
+
+                eventInfo.longitude = Double.valueOf(coord.split(",")[1]);
+                Log.d("Longitude", "" + eventInfo.longitude);
+
                 JSONArray memberArrayJson = object.getJSONArray("members");
 
                 Log.d("NUMBER OF MEMBERS: ", String.valueOf(memberArrayJson.length() + 1));
@@ -89,6 +94,7 @@ public class Events extends Activity implements SwipeRefreshLayout.OnRefreshList
                 eventInfo.members = stringBuffer.toString();
                 eventInfo.action_one = "ПОДРОБНЕЕ";
                 eventInfo.action_two = "ПРИСОЕДИНИТЬСЯ";
+                eventInfo.action_three = "КАРТА";
 
                 if (members.contains(currentUserEmail)) {
                     eventInfo.action_two = "ПОКИНУТЬ";

@@ -1,8 +1,6 @@
 package com.joinme.events;
 
 import android.app.Activity;
-import android.app.ActivityManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -11,12 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonFlat;
 import com.joinme.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -70,6 +70,27 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                 new Thread(ep).start();
             }
         });
+
+        eventViewHolder.vActionThree.setText(eventInfo.action_three);
+        eventViewHolder.vActionThree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                double longitude = eventInfo.longitude;
+                double lattitude = eventInfo.lattitude;
+                String uriGM = String.format(Locale.ENGLISH, "google.navigation:q=%.6f,%.6f&mode=w",
+                        lattitude,
+                        longitude,
+                        eventInfo.title);
+                Intent intentGM = new Intent(Intent.ACTION_VIEW, Uri.parse(uriGM));
+
+                intentGM.setPackage("com.google.android.apps.maps");
+                if (intentGM.resolveActivity(activity.getPackageManager()) != null) {
+                    activity.startActivity(intentGM);
+                } else {
+                    Toast.makeText(activity, "Warning! " + "There is no GoogleMaps in your Android", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -92,6 +113,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         protected TextView vMembersList;
         protected ButtonFlat vActionOne;
         protected ButtonFlat vActionTwo;
+        protected ButtonFlat vActionThree;
 
         public EventViewHolder(View v) {
             super(v);
@@ -104,6 +126,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             vMembersList = (TextView) v.findViewById(R.id.members);
             vActionOne = (ButtonFlat) v.findViewById(R.id.action1);
             vActionTwo = (ButtonFlat) v.findViewById(R.id.action2);
+            vActionThree = (ButtonFlat) v.findViewById(R.id.action3);
         }
     }
 }

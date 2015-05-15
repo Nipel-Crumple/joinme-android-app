@@ -11,7 +11,10 @@ public class EventInfo {
     protected String membersTitle;
     protected String action_one;
     protected String action_two;
+    protected String action_three;
     protected String members;
     protected String imageUrl;
     protected String eventId;
+    protected double longitude;
+    protected double lattitude;
 }
