@@ -133,10 +133,9 @@ public class Category extends Activity {
                 }
             }
 
-            return "Вы подписаны на " + subscriptionAmount + " события и организовываете " + organizerEvent + " события в "
-                    + allEvents.toString() + " категориях";
+            return "Подписок: " + subscriptionAmount + "\nСозданных: " + organizerEvent;
         } else {
-            return "Вы подписаны на " + subscriptionAmount + " события и организовываете " + organizerEvent + " события";
+            return "Подписок: " + subscriptionAmount + "\nСозданных: " + organizerEvent;
         }
     }
     @Override

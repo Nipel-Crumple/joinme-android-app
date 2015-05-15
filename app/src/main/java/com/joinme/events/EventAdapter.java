@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,6 +69,14 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                 String action = eventInfo.action_two;
                 EventProcessor ep = new EventProcessor(token, action, eventInfo.eventId);
                 new Thread(ep).start();
+                try {
+                    Log.d("Before sleep", "");
+                    Thread.sleep(500);
+                    Log.d("After Sleep", "");
+                    ((Events) activity).onRefresh();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
 

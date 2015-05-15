@@ -33,6 +33,7 @@ public class Events extends Activity implements SwipeRefreshLayout.OnRefreshList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("On create called", "");
         setContentView(R.layout.event_list);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh);
         mSwipeRefreshLayout.setOnRefreshListener(this);
@@ -116,6 +117,7 @@ public class Events extends Activity implements SwipeRefreshLayout.OnRefreshList
     @Override
     public void onRefresh() {
         // говорим о том, что собираемся начать
+
         Toast.makeText(this, R.string.refresh_started, Toast.LENGTH_SHORT).show();
         SharedPreferences sharedPreferences = getSharedPreferences("JoinMe", Activity.MODE_PRIVATE);
         final String userEmail = sharedPreferences.getString("JoinMeUserEmail", "");
@@ -145,11 +147,13 @@ public class Events extends Activity implements SwipeRefreshLayout.OnRefreshList
             eventList.setAdapter(eventAdapter);
             // начинаем показывать прогресс
             mSwipeRefreshLayout.setRefreshing(true);
+            Log.d("Start Refreshing","");
             // ждем 3 секунды и прячем прогресс
             mSwipeRefreshLayout.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     mSwipeRefreshLayout.setRefreshing(false);
+                    Log.d("Stop Refreshing", "");
                     // говорим о том, что собираемся закончить
                     //                Toast.makeText(Events.this, R.string.refresh_finished, Toast.LENGTH_SHORT).show();
                 }
@@ -158,6 +162,7 @@ public class Events extends Activity implements SwipeRefreshLayout.OnRefreshList
             Context context = getApplicationContext();
             Toast toast = Toast.makeText(context, error, Toast.LENGTH_SHORT);
             toast.show();
+            finish();
         }
     }
 
